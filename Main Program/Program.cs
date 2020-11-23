@@ -10,35 +10,56 @@ namespace Main_Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("To Log In, Choose an option\nFor Admin Log In Press: A\nFor Employee Log In Press: E\n ");
+            Console.WriteLine("To Log In, Choose an option\nFor Admin Log In Press: A\nFor Employee Log In Press: E\nTo Exit Press: X\n ");
             string select = Convert.ToString(Console.ReadLine());
             Admin accessAdmin = new Admin();
             DataManipulation value = new DataManipulation();
             Employee accessEmployee = new Employee();
-
-            if (select=="A")
+            if (select == "A" || select == "E")
             {
-                value.Readcsv();
-                accessAdmin.AdminLogIn();
+                Choice(select);
             }
-            else if(select == "E")
+            else if (select == "X" )
             {
-                Console.WriteLine("Employee Log In successful.");
+                Choice(select);
             }
             else
-            {
-                Console.WriteLine("Wrong Choice.");
-                value.Readcsv();
-                //value.EmployeeDic(value.IdDetails());
-                //Console.WriteLine("User Name: {0}", userData["Name"]);
+            { 
+                do
+                {
+                    Console.WriteLine("Wrong Choice.");
+                    Console.WriteLine("To Log In, Choose an option\nFor Admin Log In Press: A\nFor Employee Log In Press: E\nTo Exit Press: X\n ");
+                    select = Convert.ToString(Console.ReadLine());
+                } while (select != "A" && select != "E" && select != "X");
+             
+                Choice(select);
+            }
 
+        }
+
+        static void Choice(string choose)
+        {
+            DataManipulation value = new DataManipulation();
+            if (choose == "A")
+            {
+                value.Readcsv();
+                // accessAdmin.AdminLogIn();
+            }
+            else if (choose == "E")
+            {
+                value.Readcsv();
+                //accessEmployee.EmployeeLogIn();
+            }
+            else if (choose == "X")
+            {
+                Console.WriteLine("You have exited. Press Enter to close.");
             }
         }
     }
 
     class Admin
     {
-        
+
         public void AdminLogIn()
         {
             Console.WriteLine("To create new employee press: C\nTo edit employee press: R\nTo delete employee press: D\nTo Log Out press: X ");
@@ -176,12 +197,29 @@ namespace Main_Program
 
     class Employee
     {
-        static void EmployeeLogIn(string[] args)
+        public void EmployeeLogIn()
         {
-            Console.WriteLine("Hello World!");
+            Console.WriteLine("To profile press: R\nTo Log Out press: X ");
+            string select = Convert.ToString(Console.ReadLine());
+            
+            if (select == "R")
+            {
+               
+                Console.WriteLine("Employee Log In successful.");
+            }
+            
+            else if (select == "X")
+            {
+                Console.WriteLine("You have Loged Out successful. Press Enter to close the program");
+            }
+            else
+            {
+                Console.WriteLine("Wrong Choice.");
+            }
         }
+
     }
-    
+
     class DataManipulation
     {
         public List<string> listOfId;
@@ -263,7 +301,7 @@ namespace Main_Program
             first = collectionDetails["ID"];
             var second = new List<string>();
             Admin enter = new Admin();
-
+            Employee enterEmp = new Employee();
             if (listOfId.Contains(empID))
 
             {
@@ -300,7 +338,8 @@ namespace Main_Program
                 }
                 else if (pass == dic["Password"] && status == "Employee")
                 {
-
+                    Console.WriteLine("Employee Log In successful.");
+                    enterEmp.EmployeeLogIn();
                 }
                 else if (pass != dic["Password"] && status == "Employee")
                 {
@@ -309,8 +348,10 @@ namespace Main_Program
                         Console.WriteLine("Wrong Password, Enter correct Password ");
                         pass = Convert.ToString(Console.ReadLine());
                     } while (pass != dic["Password"]);
-                    enter.AdminLogIn(); ;
+                    Console.WriteLine("Employee Log In successful.");
+                    enterEmp.EmployeeLogIn(); 
                 }
+                
                 else
                 {
                     Console.WriteLine("Log In failed due to unauthentic Log In attempt.");
