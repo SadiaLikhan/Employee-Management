@@ -41,7 +41,7 @@ namespace Main_Program
         
         public void AdminLogIn()
         {
-            Console.WriteLine("To create new employee press: C\nTo edit employee press: R\nTo delete employee press: D ");
+            Console.WriteLine("To create new employee press: C\nTo edit employee press: R\nTo delete employee press: D\nTo Log Out press: X ");
             string select = Convert.ToString(Console.ReadLine());
             if (select == "C")
             {
@@ -56,6 +56,10 @@ namespace Main_Program
             else if (select == "D")
             {
                 RemoveEmployee();
+            }
+            else if (select == "X")
+            {
+                Console.WriteLine("You have Loged Out successful. Press Enter to close the program");
             }
             else
             {
