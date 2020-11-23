@@ -92,8 +92,26 @@ namespace Main_Program
         {
             Console.WriteLine("Enter username: ");
             string name = Convert.ToString(Console.ReadLine());
-            Console.WriteLine("Enter employee password: ");
-            string pass = Convert.ToString(Console.ReadLine());
+            Console.WriteLine("Enter employee password (Password must contain at least 8 digit): ");
+            string passcheck = Convert.ToString(Console.ReadLine());
+            string pass;
+            if (passcheck.Length>=8)
+            {
+                Console.WriteLine("Password is ok.\n");
+                pass = passcheck;
+            }
+            else 
+            {
+                do
+                {
+                    int str = passcheck.Length;
+                    Console.WriteLine("Password is not ok. Entered password contains {0} digit.\n", str);
+                    Console.WriteLine("Enter a password that contains at least 8 digit): ");
+                    passcheck = Convert.ToString(Console.ReadLine());
+                } while (passcheck.Length < 8);
+
+                pass = passcheck;
+            }
             Console.WriteLine("Enter address: ");
             string address = Convert.ToString(Console.ReadLine());
             Console.WriteLine("Enter status: ");
@@ -167,8 +185,8 @@ namespace Main_Program
         }
         static void DataManipulate(string csvpath)
         {
-            Console.WriteLine("Enter employee id: ");
-            string id = Convert.ToString(Console.ReadLine());
+            
+            string id = CheckIdExists();
             var collection = new Dictionary<string, List<string>>();
             List<string> details = new List<string>();
             details = Details();
@@ -191,8 +209,34 @@ namespace Main_Program
 
             }
         }
+        static string CheckIdExists()
+        {
+            Console.WriteLine("Enter employee id: ");
+            string idcheck = Convert.ToString(Console.ReadLine());
+            string idfinal;
+            DataManipulation check = new DataManipulation();
+            var idlist = check.idList();
+            int count = idlist.Count;
+            var list= check.ForUse();
+            if(!list.ContainsKey(idcheck))
+            {
+                idfinal= idcheck;
+            }
+            else
+            {
+                do
+                {
+                    Console.WriteLine("Employee id already exist\nPlease enter a new Employee id:(Suggested Employee ID: {0})", count);
+                    idcheck = Convert.ToString(Console.ReadLine());
+                } while (list.ContainsKey(idcheck));
+                
+                idfinal = idcheck;
+            }
+            return idfinal;
+        }
 
-        
+
+
     }
 
     class Employee
